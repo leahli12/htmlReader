@@ -21,14 +21,12 @@ public class HtmlRead {
                     new InputStreamReader(url.openStream())
             );
             String line;
-            line = reader.readLine();
-            int snippet_index = 0;
             while ((line = reader.readLine()) != null) {
                 while(line.contains("href")) {
                     int index = line.indexOf("href") + 6;
                     line = line.substring(index);
 //                    System.out.println(line);
-                    scanSegment(line);
+                    keywordChecker(line, "edu");
                 }
             }
             reader.close();
@@ -38,8 +36,8 @@ public class HtmlRead {
 
     }
 
-    public void scanSegment(String segment){
-        int end = -1;
+    public String scanSegment(String segment){
+        int end;
 //        int end = segment.indexOf(" ");
 //        if (end != -1) {
 //            segment = segment.substring(0, end);
@@ -51,10 +49,15 @@ public class HtmlRead {
             end = segment.indexOf("'");
             if (end != -1) {
                 segment = segment.substring(0, end);
-            } else {
-
             }
         }
-        System.out.println(segment);
+        return segment;
+    }
+
+    public void keywordChecker(String segment, String keyword){
+        String currentLink = scanSegment(segment);
+        if(currentLink.contains(keyword)){
+            System.out.println(currentLink);
+        }
     }
 }
